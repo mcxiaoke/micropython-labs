@@ -1,19 +1,25 @@
+import micropython
 import ulogging as logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('main')
 
-def reload(mod):
-    import sys
-    mod_name = mod.__name__
-    del sys.modules[mod_name]
-    return __import__(mod_name)
 
-import wifi
-logger.info('WiFi Connecting...')
-wifi.do_connect()
+# setup time
+try:
+    import utils
+    utils.setup_time()
+except:
+    logger.warning('NTP failed')
 
-import server
+# print mem info
+# logger.info('Memory Info:')
+# micropython.mem_info()
+
+# setup web server
 logger.info('Starting server...')
-server.start()
-
+try:
+    import server
+    server.start()
+except:
+    logger.warning('Server Failed')

@@ -6,3 +6,10 @@ import webrepl
 webrepl.start()
 
 print('[Boot] Boot Successful!')
+
+# setup wifi
+try:
+    import wifi
+    wifi.connect()
+except:
+    pass
